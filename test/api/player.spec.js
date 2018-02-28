@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const server = require('../../src/server');
 const { User, Player } = require('../../src/models');
+
 const data = require('../util/data');
 
 let token, user;
@@ -154,7 +155,6 @@ describe('Player API', () => {
       } catch (err) {
         error = err;
       }
-
       expect(error).not.to.exist;
       expect(res.status).to.equal(200);
       expect(res.body).to.be.a('object');
@@ -190,7 +190,6 @@ describe('Player API', () => {
       } catch (err) {
         error = err;
       }
-
       expect(error).to.exist;
       expect(res).not.to.exist;
       expect(error.status).to.equal(404);
@@ -221,15 +220,13 @@ describe('Player API', () => {
       let res, error;
       try {
         res = await chai.request(server)
-          .delete(`/api/players/${ player.id }`)
+          .delete(`/api/players/${ player._id }`) // NOTE: modified b/c stores as _id on creation
           .set('Authorization', `Bearer ${ token }`);
       } catch (err) {
         error = err;
       }
-
       expect(error).not.to.exist;
       expect(res.status).to.equal(200);
-
       player = await Player.findById(player.id);
       expect(player).not.to.exist;
     });
