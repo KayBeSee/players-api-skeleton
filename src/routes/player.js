@@ -20,7 +20,8 @@ module.exports = (server) => {
     if (!req.headers.authorization) return res.status(403).send({success: false});
     let { first_name, last_name, rating, handedness } = req.body;
     try {
-      let newPlayer = await PlayerController.createPlayer(first_name, last_name, rating, handedness);
+      let user = jwt.decode(req.headers.authorization.slice(7));
+      let newPlayer = await PlayerController.createPlayer(first_name, last_name, rating, handedness, user);
       let success = true;
       res.status(201).send({success, player: newPlayer});
     } catch (err) {

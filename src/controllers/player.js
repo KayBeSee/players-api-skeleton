@@ -7,8 +7,8 @@ class PlayerApi {
     return players;
   }
 
-  async createPlayer(first_name, last_name, rating, handedness) {
-    let player = await PlayerModel.create({ first_name, last_name, rating, handedness });
+  async createPlayer(first_name, last_name, rating, handedness, user) {
+    let player = await PlayerModel.create({ first_name, last_name, rating, handedness, created_by: user.id });
     return player;
   }
 
